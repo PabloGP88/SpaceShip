@@ -1,6 +1,6 @@
-[gd_resource type="ShaderMaterial" format=3]
+[gd_resource type="ShaderMaterial" format=3 uid="uid://b63ilmn23d58c"]
 
-[ext_resource type="Shader" path="res://resources/shaders/rotating_planet.gdshader" id="1_shader"]
+[ext_resource type="Shader" uid="uid://cgihxre8hafj0" path="res://resources/shaders/rotating_planet.gdshader" id="1_shader"]
 [ext_resource type="Texture2D" uid="uid://dprhu2jh874s2" path="res://resources/textures/mars.jpg" id="2_mars"]
 
 [resource]

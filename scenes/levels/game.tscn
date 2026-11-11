@@ -15,7 +15,7 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/dead_zone_warning.tscn" id="14_dzwarn"]
 [ext_resource type="PackedScene" path="res://scenes/ui/objective_tracker.tscn" id="15_objective"]
 [ext_resource type="PackedScene" path="res://scenes/ui/main_menu.tscn" id="16_mainmenu"]
-[ext_resource type="Script" path="res://scripts/managers/sound_effect_manager.gd" id="17_sfxmgr"]
+[ext_resource type="Script" uid="uid://c62gxo3eh46qf" path="res://scripts/managers/sound_effect_manager.gd" id="17_sfxmgr"]
 [ext_resource type="PackedScene" path="res://scenes/ui/win_screen.tscn" id="18_win"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_gcb5y"]
@@ -69,17 +69,17 @@ mass = 8000000.0
 
 [node name="HUD" parent="." unique_id=795487204 instance=ExtResource("5_hud")]
 
-[node name="ObjectiveTracker" parent="." node_paths=PackedStringArray("minimap") instance=ExtResource("15_objective")]
+[node name="ObjectiveTracker" parent="." unique_id=224236094 node_paths=PackedStringArray("minimap") instance=ExtResource("15_objective")]
 minimap = NodePath("../OrbitMinimap")
 
-[node name="MainMenu" parent="." node_paths=PackedStringArray("hide_during_menu") instance=ExtResource("16_mainmenu")]
+[node name="MainMenu" parent="." unique_id=569455007 node_paths=PackedStringArray("hide_during_menu") instance=ExtResource("16_mainmenu")]
 hide_during_menu = [NodePath("../HUD"), NodePath("../OrbitMinimap"), NodePath("../ObjectiveTracker"), NodePath("../RestartHint")]
 
 [node name="RestartPrompt" parent="." unique_id=194693097 instance=ExtResource("11_restart")]
 
 [node name="RestartHint" parent="." unique_id=1902681171 instance=ExtResource("12_hint")]
 
-[node name="WinScreen" parent="." instance=ExtResource("18_win")]
+[node name="WinScreen" parent="." unique_id=726888704 instance=ExtResource("18_win")]
 
 [node name="Asteroid_Obstacle" parent="." unique_id=804147482 node_paths=PackedStringArray("planet") instance=ExtResource("10_2mu0v")]
 transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 4505.5327, 0, 0)
@@ -114,7 +114,7 @@ transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, -3176.3945, 1325.8826, 
 [node name="AsteroidMission2" parent="." unique_id=643837449 instance=ExtResource("8_7x1jh")]
 transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 311.5067, -1864.7949, 62.939575)
 
-[node name="SoundEffectManager" type="Node" parent="."]
+[node name="SoundEffectManager" type="Node" parent="." unique_id=71480808]
 unique_name_in_owner = true
 script = ExtResource("17_sfxmgr")
 

@@ -1,8 +1,6 @@
 class_name AsteroidMission
 extends Mission
-## An asteroid the player has to reach. solid_body is what the ship collides
-## with; detect_area is slightly larger and completes the mission when the
-## ship gets close enough.
+
 
 @export var solid_body: StaticBody3D
 @export var detect_area: Area3D
