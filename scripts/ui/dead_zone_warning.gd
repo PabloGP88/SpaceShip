@@ -1,19 +1,11 @@
 class_name DeadZoneWarning
 extends CanvasLayer
-## Full-screen red warning + countdown shown while the ship is outside a DeadZone.
-##
-## Usage: instance dead_zone_warning.tscn and point `dead_zone` at the level's
-## DeadZone. Style the labels in the scene; colour/pulse are driven from here.
 
-## Leave empty to use the first DeadZone in the "dead_zone" group.
 @export var dead_zone: DeadZone
 
 @export_group("Look")
-## Red overlay colour; its alpha is the strongest the tint gets.
 @export var tint_colour: Color = Color(1.0, 0.05, 0.05, 0.35)
-## Overlay pulses per second (speeds up as time runs out).
 @export var pulse_hz: float = 1.5
-## Lowest overlay strength during a pulse, as a fraction of tint alpha.
 @export_range(0.0, 1.0) var pulse_min: float = 0.4
 
 @export_group("Nodes")

@@ -4,11 +4,7 @@
 [ext_resource type="Material" path="res://resources/materials/rotation_mars.tres" id="2_rotmars"]
 [ext_resource type="PackedScene" path="res://scenes/effects/mission_hint.tscn" id="3_hint"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_asteroid"]
-albedo_color = Color(0.45, 0.4, 0.36, 1)
-
 [sub_resource type="SphereMesh" id="SphereMesh_asteroid"]
-material = SubResource("StandardMaterial3D_asteroid")
 radius = 3.0
 height = 6.0
 
@@ -18,9 +14,8 @@ radius = 3.0
 [sub_resource type="SphereShape3D" id="SphereShape3D_detect"]
 radius = 4.5
 
-[node name="AsteroidMission" type="Node3D" unique_id=1861415494 node_paths=PackedStringArray("solid_body", "detect_area")]
+[node name="AsteroidMission" type="Node3D" unique_id=1861415494 node_paths=PackedStringArray("detect_area")]
 script = ExtResource("1_asteroid")
-solid_body = NodePath("StaticBody3D")
 detect_area = NodePath("DetectArea")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1542912725]

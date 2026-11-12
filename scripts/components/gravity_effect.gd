@@ -13,12 +13,9 @@ var enabled := true
 func _physics_process(_delta: float) -> void:
 	if not enabled:
 		return
-	# Force = mass * acceleration. The ship's own mass cancels out, as in real
-	# gravity, so heavy and light ships fall the same way.
 	body.apply_central_force(acceleration_at(body.global_position) * body.mass)
 
 
-## Every node that pulls on the ship.
 func get_sources() -> Array[Node3D]:
 	var sources: Array[Node3D] = []
 	for node in get_tree().get_nodes_in_group(&"gravity"):
@@ -39,7 +36,6 @@ static func source_radius(node: Node3D) -> float:
 	return 1.0
 
 
-## G * M of a source.
 func mu_of(source: Node3D) -> float:
 	return gravitational_constant * source_mass(source)
 
@@ -69,7 +65,6 @@ func strongest_source(point: Vector3, sources: Array[Node3D] = []) -> Node3D:
 	return best
 
 
-## The ship's current Kepler orbit around `source` (if it stopped thrusting now).
 func orbit_around(source: Node3D) -> Orbit:
 	return Orbit.from_state(
 		body.global_position - source.global_position,

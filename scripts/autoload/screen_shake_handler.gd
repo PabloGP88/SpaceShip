@@ -1,16 +1,6 @@
 extends Node
-## Global screen shake, autoloaded as `ScreenShakeHandler`.
-##
-## Call it from anywhere:
-##     ScreenShakeHandler.shake()                              # default small shake
-##     ScreenShakeHandler.shake(0.6, 0.8)                      # stronger, longer
-##     ScreenShakeHandler.shake(0.2, 1.5, 8.0, 2.0)            # slow, rolling rumble
-##     ScreenShakeHandler.shake_at(explosion_pos, 30.0, 0.8)   # weaker the farther the camera is
-##
-## Several shakes can run at the same time; their offsets are added together.
-## Translation is applied through the active Camera3D's h_offset / v_offset, so any
-## camera works without changes. Rotation needs the camera to read
-## get_rotation_basis() (camera.gd already does).
+## Global screen shake. Offsets the active camera's h/v_offset; rotation is
+## read by the camera through get_rotation_basis().
 
 class Shake:
 	var strength: float
@@ -21,13 +11,9 @@ class Shake:
 	var elapsed := 0.0
 	var seed: float
 
-## Turn every shake off (e.g. an accessibility option).
 @export var enabled := true
-## Scales every shake (e.g. a "screen shake intensity" slider).
 @export_range(0.0, 2.0) var global_multiplier := 1.0
-## Upper bound for the combined translation offset, in meters.
 @export var max_offset := 2.0
-## Upper bound for the combined rotation, in degrees.
 @export var max_rotation_degrees := 10.0
 
 var _shakes: Array[Shake] = []
@@ -44,12 +30,6 @@ func _ready() -> void:
 	_noise.seed = randi()
 
 
-## Starts a new shake.
-## [param strength]: max camera displacement in meters.
-## [param duration]: seconds until it fades out completely.
-## [param frequency]: how fast it jitters (low = rumble, high = rattle).
-## [param rotation_deg]: max camera tilt in degrees (0 = translation only).
-## [param falloff]: fade curve exponent (1 = linear, 2+ = sharp hit that settles fast).
 func shake(
 	strength := 0.3,
 	duration := 0.4,
@@ -69,8 +49,7 @@ func shake(
 	_shakes.append(s)
 
 
-## Like shake(), but scaled down by the camera's distance to [param source].
-## No shake happens if the camera is farther than [param radius].
+## Like shake(), weakened by the camera's distance to source.
 func shake_at(
 	source: Vector3,
 	radius: float,
@@ -90,7 +69,6 @@ func shake_at(
 	shake(strength * attenuation, duration, frequency, rotation_deg * attenuation, falloff)
 
 
-## Current rotation offset. Multiply the camera's basis by this after positioning it.
 func get_rotation_basis() -> Basis:
 	return Basis.from_euler(_rotation)
 
@@ -128,7 +106,6 @@ func _sample(row: float, t: float) -> float:
 func _apply_offset() -> void:
 	var cam := get_viewport().get_camera_3d()
 	if cam != _camera:
-		# Camera switched: give the old one its original offsets back.
 		if is_instance_valid(_camera):
 			_camera.h_offset -= _applied_offset.x
 			_camera.v_offset -= _applied_offset.y
@@ -136,7 +113,6 @@ func _apply_offset() -> void:
 		_camera = cam
 	if _camera == null:
 		return
-	# Apply only the change so the camera's own h/v offset is preserved.
 	_camera.h_offset += _offset.x - _applied_offset.x
 	_camera.v_offset += _offset.y - _applied_offset.y
 	_applied_offset = _offset

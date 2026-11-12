@@ -67,7 +67,6 @@ func is_stable(min_radius: float) -> bool:
 	return is_bound() and periapsis > min_radius
 
 
-## Position relative to the body, t seconds after the orbit was measured.
 func position_at(t: float) -> Vector3:
 	var ecc_anomaly := _eccentric_anomaly(t)
 	var a := semi_major_axis
@@ -75,7 +74,6 @@ func position_at(t: float) -> Vector3:
 	return _p * (a * (cos(ecc_anomaly) - e)) + _q * (a * sqrt(1.0 - e * e) * sin(ecc_anomaly))
 
 
-## Velocity t seconds after the orbit was measured.
 func velocity_at(t: float) -> Vector3:
 	var ecc_anomaly := _eccentric_anomaly(t)
 	var a := semi_major_axis

@@ -1,35 +1,26 @@
 extends Camera3D
 
-@export var target: Node3D # drag the Ship node here in the inspector
+@export var target: Node3D
 @export var distance := 8.0
 @export var min_distance := 2.0
 @export var max_distance := 40.0
 @export var zoom_step := 1.0
 @export var sensitivity := 0.005
-@export var key_rotate_speed := 2.0 # radians per second (arrow keys / right stick)
-## Extra distance added while the player's locked-orbit boost is firing.
+@export var key_rotate_speed := 2.0
 @export var boost_zoom_out := 6.0
-## How quickly the camera eases in/out of the boost zoom.
 @export var boost_zoom_speed := 3.0
 
 @export_group("Main menu")
-## Distance from the ship while the title screen is up.
 @export var menu_distance := 14.0
-## How far round to the ship's side the menu camera sits (0 = straight behind).
 @export_range(0.0, 90.0) var menu_side_angle_deg := 35.0
-## Height above the ship of the menu camera.
 @export var menu_height := 2.0
-## The menu camera aims this far past the ship, towards the planet and sun,
-## so the ship sits off-centre and both bodies stay in frame.
 @export var menu_look_ahead := 30.0
-## Gentle idle sway of the menu camera (degrees, cycles per second).
 @export var menu_sway_deg := 4.0
 @export var menu_sway_hz := 0.08
-## Seconds the camera takes to fly from the menu view to the gameplay view.
 @export var menu_transition_time := 2.0
 
 var yaw := 0.0
-var pitch := -0.3 # negative = camera starts above, looking down
+var pitch := -0.3
 var follow_axes := Vector3.ZERO
 var follow_weight := Vector3.ZERO
 var follow_lerp_speed := 4.0
@@ -86,7 +77,6 @@ func _physics_process(delta: float) -> void:
 	global_transform = _game_pose(delta)
 
 
-## Where the camera sits during normal play (follows the ship, orbit controls).
 func _game_pose(delta: float) -> Transform3D:
 	follow_weight = follow_weight.lerp(follow_axes, 1.0 - exp(-follow_lerp_speed * delta))
 	var follow := Basis.from_euler(target.global_basis.get_euler() * follow_weight)
@@ -102,11 +92,6 @@ func _game_pose(delta: float) -> Transform3D:
 	)
 
 
-# --- Main menu -----------------------------------------------------------------
-
-
-## Title-screen view, then a smooth fly-in to the gameplay view once Play is
-## pressed. Hands control over (GameState.finish_start) when it arrives.
 func _update_menu_camera(delta: float) -> void:
 	_menu_time += delta
 	var menu := _menu_pose()
@@ -124,8 +109,7 @@ func _update_menu_camera(delta: float) -> void:
 		GameState.finish_start()
 
 
-## Looks past the ship, from a bit to its side, towards the point between the
-## nearest planet and the sun so all three are on screen.
+## Frames the ship, the nearest planet and the sun together.
 func _menu_pose() -> Transform3D:
 	var ship_pos := target.global_position
 	var look_dir := -target.global_basis.z
@@ -177,7 +161,6 @@ func _find_sun() -> Sun:
 
 
 func _apply_key_rotation(delta: float) -> void:
-	# Arrow keys or the controller's right stick (analog).
 	var horizontal := clampf(
 		int(Input.is_physical_key_pressed(KEY_LEFT)) - int(Input.is_physical_key_pressed(KEY_RIGHT))
 		+ Input.get_axis(&"camera_right", &"camera_left"),

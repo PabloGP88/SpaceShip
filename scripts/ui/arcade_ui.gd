@@ -1,7 +1,6 @@
 class_name ArcadeUI
 extends RefCounted
-## Shared look for the arcade HUD: chunky white frames, hard black drop
-## shadows, outlined pixel text and bevelled segment bars.
+## Shared styling helpers for the arcade HUD.
 
 const FRAME_COLOUR := Color(1.0, 1.0, 1.0)
 const SHADOW_COLOUR := Color(0.0, 0.0, 0.0, 0.85)
@@ -23,17 +22,14 @@ void fragment() {
 """
 
 
-## Frame thickness for the current screen height.
 static func border_px(screen_height: float) -> float:
 	return maxf(2.0, roundf(screen_height * 0.004))
 
 
-## Header font size for the current screen height.
 static func font_size(screen_height: float) -> int:
 	return maxi(10, int(screen_height * 0.026))
 
 
-## Outlined, drop-shadowed pixel label.
 static func make_label(text := "", colour := TEXT_COLOUR) -> Label:
 	var label := Label.new()
 	label.text = text
@@ -52,8 +48,6 @@ static func style_label(label: Label, colour := TEXT_COLOUR) -> void:
 	label.add_theme_constant_override("outline_size", 4)
 
 
-## Panel with a white frame and a hard drop shadow. Call apply_frame() on
-## layout changes to size the border for the screen.
 static func make_frame_style(bg := PANEL_COLOUR) -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
 	style.bg_color = bg
@@ -81,7 +75,6 @@ static func make_scanlines() -> ColorRect:
 	return scanlines
 
 
-## Draws a framed, segmented bar filling `canvas` (call from its draw signal).
 static func draw_segment_bar(
 	canvas: Control, fraction: float, segments: int, colour: Color, border: float,
 	frame_colour := FRAME_COLOUR

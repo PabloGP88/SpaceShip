@@ -1,14 +1,10 @@
 class_name ObjectiveTracker
 extends CanvasLayer
-## Arcade-style objective panel under the minimap: header, objective text,
-## a big kill counter and one block per asteroid in a segmented bar.
 
 @export var minimap: OrbitMinimap
 @export var objective_template: String = "Destroy all %d asteroids across the planet and save humanity"
 @export var gap_px: float = 8.0
-## Most blocks drawn in the progress bar; beyond this the bar fills proportionally.
 @export_range(1, 40) var max_blocks: int = 16
-## How long the counter flashes after an asteroid is destroyed, in seconds.
 @export var hit_flash_seconds: float = 0.6
 
 var _panel: PanelContainer
@@ -135,7 +131,6 @@ func _update_layout() -> void:
 	ArcadeUI.apply_frame(_panel_style, _border_px, maxf(4.0, screen_height * 0.01))
 	_panel.offset_left = -margin - size
 	_panel.offset_right = -margin
-	# Leave room for the minimap's drop shadow.
 	_panel.offset_top = margin + size + gap_px + _border_px
 	_title.add_theme_font_size_override("font_size", font_size)
 	_counter.add_theme_font_size_override("font_size", font_size + 6)

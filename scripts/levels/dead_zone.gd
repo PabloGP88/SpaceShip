@@ -1,39 +1,24 @@
 @tool
 class_name DeadZone
 extends Node3D
-## Spherical play area around a body (normally the big central planet).
-##
-## When the ship leaves the sphere a countdown starts; if it isn't back inside
-## before it reaches zero the player dies. The OrbitMinimap draws the boundary
-## as a red ring and a DeadZoneWarning (red screen + countdown) listens to the
-## signals below.
-##
-## Usage: add dead_zone.tscn to a level and set `center` to the planet.
+## Spherical play area. Leaving it starts a countdown that kills the player.
 
-## Emitted when the ship leaves the sphere (countdown starts).
 signal player_exited
-## Emitted when the ship comes back inside in time.
 signal player_returned
-## Emitted when the countdown hits zero (the player is killed).
 signal time_ran_out
 
-## The zone stays centred on this node. Leave empty to keep the node's own position.
 @export var center: Node3D:
 	set(value):
 		center = value
 		_follow_center()
-## Radius of the play area, in world units.
 @export var radius: float = 6000.0:
 	set(value):
 		radius = maxf(value, 1.0)
 		_update_preview()
-## Seconds the player has to get back inside before dying.
 @export var return_time: float = 5.0
-## Leave empty to use the first Player in the "player" group.
 @export var player: Player
 
 @export_group("Editor preview")
-## Draws a translucent sphere in the editor so you can see the radius.
 @export var show_in_editor: bool = true:
 	set(value):
 		show_in_editor = value
@@ -78,7 +63,6 @@ func _process(delta: float) -> void:
 			player.on_dead()
 
 
-## True if the world point is inside the play area.
 func contains(world_point: Vector3) -> bool:
 	return world_point.distance_squared_to(global_position) <= radius * radius
 
@@ -87,7 +71,6 @@ func is_player_outside() -> bool:
 	return _outside
 
 
-## Seconds left to return (only meaningful while outside).
 func get_time_left() -> float:
 	return _time_left
 
@@ -121,7 +104,7 @@ func _update_preview() -> void:
 		material.cull_mode = BaseMaterial3D.CULL_DISABLED
 		_preview.material_override = material
 		_preview.mesh = SphereMesh.new()
-		add_child(_preview) # not owned: never saved into the scene
+		add_child(_preview)
 	var sphere := _preview.mesh as SphereMesh
 	sphere.radius = radius
 	sphere.height = radius * 2.0

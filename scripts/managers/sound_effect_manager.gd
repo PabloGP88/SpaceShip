@@ -8,9 +8,8 @@ const MISSION_DESTROY := 3
 
 const GROUP := &"sound_effect_manager"
 
-## 0 = thrust, 1 = orbit boost, 2 = player destroy, 3 = mission destroy
+## Indexed by the constants above.
 @export var sound_effects: Array[AudioStream] = [null, null, null, null]
-## Audio bus every effect is sent to.
 @export var bus: StringName = &"Master"
 @export var pool_size := 16
 
@@ -47,7 +46,7 @@ func play_sound_effect(index: int, pitch_variation := 0.0, volume_variation_db :
 
 
 func stop_sound_effect(p: AudioStreamPlayer) -> void:
-	# If the loop entry is gone, the player was reused for another sound: leave it.
+	# No loop entry means the player was reused for another sound.
 	if p == null or not _loops.has(p):
 		return
 	_loops.erase(p)
@@ -63,6 +62,7 @@ func _play_varied(p: AudioStreamPlayer, pitch_variation: float, volume_variation
 func _on_player_finished(p: AudioStreamPlayer) -> void:
 	if _loops.has(p):
 		_play_varied(p, _loops[p][0], _loops[p][1])
+
 
 func _get_free_player() -> AudioStreamPlayer:
 	var oldest := _players[0]

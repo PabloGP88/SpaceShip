@@ -22,6 +22,8 @@
 [ext_resource type="AudioStream" uid="uid://bgp32shv1jwk3" path="res://resources/Sounds/explosion_dead.wav" id="19_02t1k"]
 [ext_resource type="AudioStream" uid="uid://jccy6xn6238e" path="res://resources/Sounds/turbo_orbit.wav" id="19_hilwk"]
 [ext_resource type="AudioStream" uid="uid://c6th5te0nwjrk" path="res://resources/Sounds/hit_goal.wav" id="20_hilwk"]
+[ext_resource type="Material" uid="uid://b21kwjhjfbvlt" path="res://resources/materials/rotation_jupiter.tres" id="21_jupiter"]
+[ext_resource type="Material" uid="uid://drajars1uaill" path="res://resources/materials/rotation_neptune.tres" id="22_neptune"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_gcb5y"]
 panorama = ExtResource("1_v45ci")
@@ -121,8 +123,14 @@ transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 900.34784, -943.4909, -
 [node name="AsteroidMission3" parent="." unique_id=1147948896 instance=ExtResource("8_7x1jh")]
 transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, -3176.3945, 1325.8826, -1519.0106)
 
+[node name="MeshInstance3D" parent="AsteroidMission3" index="0" unique_id=1542912725]
+material_override = ExtResource("21_jupiter")
+
 [node name="AsteroidMission2" parent="." unique_id=643837449 instance=ExtResource("8_7x1jh")]
 transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 311.5067, -1864.7949, 62.939575)
+
+[node name="MeshInstance3D" parent="AsteroidMission2" index="0" unique_id=1542912725]
+material_override = ExtResource("22_neptune")
 
 [node name="SoundEffectManager" type="Node" parent="." unique_id=71480808]
 unique_name_in_owner = true
@@ -130,3 +138,5 @@ script = ExtResource("17_sfxmgr")
 sound_effects = Array[AudioStream]([ExtResource("18_15o36"), ExtResource("19_hilwk"), ExtResource("19_02t1k"), ExtResource("20_hilwk")])
 
 [editable path="BigAssPlanet"]
+[editable path="AsteroidMission3"]
+[editable path="AsteroidMission2"]

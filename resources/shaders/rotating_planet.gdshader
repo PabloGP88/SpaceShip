@@ -1,9 +1,6 @@
 shader_type spatial;
 
-// Spins an equirectangular texture (e.g. earth.jpg) around a sphere.
-// The UV is rebuilt from the object-space direction each frame, so the
-// planet truly rotates around an arbitrary (tilted) axis instead of just
-// scrolling the texture.
+// Spins an equirectangular texture around a (tilted) axis.
 
 uniform sampler2D albedo_texture : source_color, filter_linear_mipmap, repeat_enable;
 uniform vec4 albedo_tint : source_color = vec4(1.0);

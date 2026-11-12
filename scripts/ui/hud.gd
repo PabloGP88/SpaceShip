@@ -1,28 +1,15 @@
 extends CanvasLayer
-## Arcade-style thrust/fuel gauge.
-##
-## Reads the ship's fuel (FuelComponent.fuel / max_fuel) and draws a chunky,
-## segmented bar with a hard drop shadow, bevelled blocks and CRT scanlines.
-## The fill colour steps through tiers as the tank empties
-## (green -> yellow -> orange -> red) and flashes when low.
-##
-## Usage: instance hud.tscn in a scene that has a Player.
+## Fuel gauge.
 
-## Leave empty to use the first Player found in the current scene.
 @export var player: Player
 
 @export_group("Layout")
-## Bar length as a fraction of the screen width.
 @export_range(0.05, 0.5) var bar_width_ratio: float = 0.18
-## Bar height as a fraction of the screen height (clamped to at least 14 px).
 @export_range(0.01, 0.1) var bar_height_ratio: float = 0.03
-## Number of segments in the bar.
 @export_range(2, 60) var segments: int = 16
-## Distance from the top-left corner as a fraction of the screen height.
 @export_range(0.0, 0.2) var margin_ratio: float = 0.015
 
 @export_group("Colours")
-## Fill colour per tier, used while fuel fraction is at or above the threshold.
 @export var full_colour := Color(0.2, 1.0, 0.35)
 @export var mid_colour := Color(1.0, 0.9, 0.15)
 @export_range(0.0, 1.0) var mid_threshold: float = 0.6
@@ -31,9 +18,7 @@ extends CanvasLayer
 @export var critical_colour := Color(1.0, 0.15, 0.2)
 
 @export_group("Feedback")
-## Below this amount of fuel the gauge flashes and shows a warning.
 @export var low_fuel: float = 10.0
-## Flash speed in Hz while warning.
 @export var flash_hz: float = 4.0
 
 var _root: VBoxContainer
@@ -60,8 +45,6 @@ func _process(delta: float) -> void:
 		return
 	_flash += delta
 	_update(delta)
-
-# --- UI ----------------------------------------------------------------------
 
 
 func _find_player() -> bool:
@@ -106,7 +89,6 @@ func _build_ui() -> void:
 	_root.add_child(_label)
 
 
-## Sizes everything from the screen so it looks the same at any resolution.
 func _update_layout() -> void:
 	var screen := get_viewport().get_visible_rect().size
 	var margin := screen.y * margin_ratio
@@ -135,7 +117,6 @@ func _tier_colour(fraction: float) -> Color:
 func _update(delta: float) -> void:
 	var fuel: float = player.fuel_component.fuel
 	_fraction = clampf(player.fuel_component.get_fraction(), 0.0, 1.0)
-	# Ease the visible bar towards the real value for a snappier arcade feel.
 	_display_fraction = lerpf(_display_fraction, _fraction, 1.0 - exp(-12.0 * delta))
 	_warning = fuel < low_fuel
 	_fill_colour = _tier_colour(_fraction)

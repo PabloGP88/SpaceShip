@@ -6,9 +6,7 @@ extends Node3D
 
 func _ready() -> void:
 	add_to_group("bodies")
-	# Scale the children (collision shapes, meshes), not the body itself:
-	# physics engines (Jolt especially) ignore scale on a RigidBody3D, so the
-	# collider would stay its unscaled size while the visuals grow.
+	# Scale the children: Jolt ignores scale on a RigidBody3D.
 	for child in get_children():
 		if child is Node3D:
 			var node := child as Node3D

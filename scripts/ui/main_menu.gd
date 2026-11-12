@@ -1,16 +1,8 @@
 class_name MainMenu
 extends CanvasLayer
-## Arcade-style title screen: "PRESS [A] OR [ENTER] TO PLAY" plus credits.
-##
-## Only shown while GameState.in_menu is true (first launch). Pressing A on a
-## controller or Enter on the keyboard asks GameState to start; the camera
-## then flies to the ship and enables the controls when it arrives.
 
-## Gameplay UI hidden while the menu is up, shown again once the game starts.
 @export var hide_during_menu: Array[CanvasLayer] = []
-## Full on/off cycles per second of the play prompt.
 @export var blink_hz := 1.5
-## Seconds the menu takes to fade out after Play is pressed.
 @export var fade_out_time := 0.4
 
 @onready var _root: Control = $Root
@@ -33,7 +25,6 @@ func _process(delta: float) -> void:
 	_time += delta
 	if GameState.is_starting():
 		return
-	# Hard on/off, no fade, like an arcade attract screen.
 	_prompt.modulate.a = 1.0 if fmod(_time * blink_hz, 1.0) < 0.5 else 0.0
 
 

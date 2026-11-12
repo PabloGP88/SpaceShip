@@ -1,11 +1,7 @@
 shader_type spatial;
 render_mode unshaded, blend_add, depth_draw_never, cull_disabled, shadows_disabled;
-// Looping "go here" ping for mission objectives: a camera-facing quad that
-// flashes the object's silhouette and sends out an expanding ring every
-// `period` seconds. Driven purely by TIME, so it loops forever on its own.
-//
-// Distances are in quad space: 0 = center, 1 = quad edge. `start_radius` should
-// match the object's silhouette (object radius / quad half-size).
+
+// Looping ping on a camera-facing quad. Distances: 0 = center, 1 = quad edge.
 
 uniform vec4 color : source_color = vec4(1.0, 0.82, 0.1, 1.0);
 uniform float intensity = 4.0;

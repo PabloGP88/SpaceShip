@@ -1,27 +1,17 @@
 class_name RestartPrompt
 extends Label
-## Text that tells the player how to restart, e.g. "PRESS [START] TO RESTART".
-##
-## The button name follows the input device: Start when a controller is
-## plugged in, R otherwise. Can blink arcade-style and/or appear only once
-## the player has died.
 
-## "%s" is replaced by the button name.
 @export var template := "PRESS [%s] TO RESTART"
 @export var keyboard_button := "R"
 @export var controller_button := "START"
-## Forces the final text to capital letters.
 @export var all_caps := true
 
 @export_group("Blink")
 @export var blink := true
-## Full on/off cycles per second.
 @export var blink_hz := 1.5
 
 @export_group("Visibility")
-## Hidden until the player dies.
 @export var only_after_death := false
-## Seconds to wait after death before showing (lets the explosion play).
 @export var death_delay := 1.0
 
 var _time := 0.0
@@ -49,7 +39,6 @@ func _process(delta: float) -> void:
 			return
 
 	if blink:
-		# Hard on/off, no fade, like an arcade attract screen.
 		modulate.a = 1.0 if fmod(_time * blink_hz, 1.0) < 0.5 else 0.0
 	else:
 		modulate.a = 1.0

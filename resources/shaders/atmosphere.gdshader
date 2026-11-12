@@ -1,13 +1,7 @@
 shader_type spatial;
 render_mode blend_add, depth_draw_never, cull_front, shadows_disabled, ambient_light_disabled, specular_disabled;
 
-// Atmosphere shell drawn around a planet. Put it on a sphere slightly bigger
-// than the planet. Only the inside (back faces) of the shell is drawn, so the
-// planet covers the middle and the glow shows up as a halo around its edge.
-//
-// The glow strength comes from how close the view ray passes to the planet:
-// densest right at the planet's surface, fading out at the edge of the shell.
-// The sun side glows and the night side fades through a sunset tint.
+// Atmosphere halo; use on a sphere slightly bigger than the planet.
 
 // Main sky color on the lit side.
 uniform vec4 atmosphere_color : source_color = vec4(0.35, 0.65, 1.0, 1.0);

@@ -6,8 +6,7 @@ const CONTEXT := &"pixelate_effect"
 const SOURCE := &"source"
 
 @export_range(1, 32, 1) var pixel_size: int = 8
-## Pixelate before transparent objects are drawn, so they stay crisp on top
-## (used by the minimap so its lines and markers aren't pixelated).
+## Pixelate before transparent objects so they stay crisp on top.
 @export var before_transparent: bool = false:
 	set(value):
 		before_transparent = value
