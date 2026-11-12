@@ -43,6 +43,10 @@ extends Node3D
 @export var thrust_effect: GPUParticles3D
 ## Stronger blue thrust shown instead of thrust_effect while the orbit is locked.
 @export var thrust_in_orbit_effect: GPUParticles3D
+## Random +/- pitch offset, re-rolled every time the thrust loop repeats.
+@export var thrust_pitch_variation := 0.08
+## Random +/- volume offset (dB), re-rolled every time the thrust loop repeats.
+@export var thrust_volume_variation_db := 2.0
 @export var explosion: PackedScene = preload("res://scenes/effects/explosion_ship.tscn")
 ## How far the explosion is pushed out from the impact point, away from what was hit.
 @export var explosion_offset := 2.0
@@ -140,6 +144,8 @@ func on_dead(hit_point: Vector3 = ship.global_position) -> void:
 	if _is_dead:
 		return
 	_is_dead = true
+	# Stop the thrust first so stopping it can't cut off the death sound.
+	_set_thrust_emitting(false)
 	Input.start_joy_vibration(0, 1.0, 1.0, 3.0)
 	_spawn_explosion(hit_point)
 	var sfx := SoundEffectManager.find(get_tree())
@@ -153,7 +159,6 @@ func on_dead(hit_point: Vector3 = ship.global_position) -> void:
 	)
 
 	# Hide and stop the ship (ThrustEffect is a child, so it hides too).
-	_set_thrust_emitting(false)
 	ship.hide()
 	ship.set_deferred(&"freeze", true)
 
@@ -336,6 +341,9 @@ func _apply_orbit_boost(delta: float) -> void:
 	var charged := held and _orbit_charge >= orbit_charge_time
 	_set_thrust_emitting(charged)
 	if charged and not was_charged:
+		var sfx := SoundEffectManager.find(get_tree())
+		if sfx:
+			sfx.play_sound_effect(SoundEffectManager.ORBIT_BOOST)
 		ScreenShakeHandler.shake(
 			orbit_boost_shake_strength,
 			orbit_boost_shake_duration,
@@ -385,9 +393,14 @@ func _set_thrust_sound(on: bool) -> void:
 	if on:
 		var sfx := SoundEffectManager.find(get_tree())
 		if sfx:
-			_thrust_sound = sfx.play_sound_effect(SoundEffectManager.THRUST)
+			_thrust_sound = sfx.play_sound_effect(SoundEffectManager.THRUST,
+					thrust_pitch_variation, thrust_volume_variation_db, true)
 	else:
-		_thrust_sound.stop()
+		var sfx := SoundEffectManager.find(get_tree())
+		if sfx:
+			sfx.stop_sound_effect(_thrust_sound)
+		else:
+			_thrust_sound.stop()
 		_thrust_sound = null
 
 

@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://db5alj460rtpt" path="res://scripts/levels/game.gd" id="1_48ne7"]
 [ext_resource type="Texture2D" uid="uid://b4u1e2rcjlw00" path="res://resources/textures/milkyway.exr" id="1_v45ci"]
 [ext_resource type="PackedScene" uid="uid://bji83neuivaio" path="res://scenes/player/player.tscn" id="2_48ne7"]
+[ext_resource type="AudioStream" uid="uid://d3kw1btrnjc8w" path="res://resources/Sounds/song_game.mp3" id="2_hilwk"]
 [ext_resource type="PackedScene" uid="uid://d4soxyul74t3" path="res://scenes/bodies/big_ass_planet.tscn" id="3_6xh4u"]
 [ext_resource type="PackedScene" uid="uid://ba3ejxia8n30j" path="res://scenes/ui/minimap.tscn" id="4_v45ci"]
 [ext_resource type="PackedScene" uid="uid://huxn3knhtqvl" path="res://scenes/ui/hud.tscn" id="5_hud"]
@@ -16,7 +17,11 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/objective_tracker.tscn" id="15_objective"]
 [ext_resource type="PackedScene" path="res://scenes/ui/main_menu.tscn" id="16_mainmenu"]
 [ext_resource type="Script" uid="uid://c62gxo3eh46qf" path="res://scripts/managers/sound_effect_manager.gd" id="17_sfxmgr"]
+[ext_resource type="AudioStream" uid="uid://c40vnf3ak17tx" path="res://resources/Sounds/thrust.wav" id="18_15o36"]
 [ext_resource type="PackedScene" path="res://scenes/ui/win_screen.tscn" id="18_win"]
+[ext_resource type="AudioStream" uid="uid://bgp32shv1jwk3" path="res://resources/Sounds/explosion_dead.wav" id="19_02t1k"]
+[ext_resource type="AudioStream" uid="uid://jccy6xn6238e" path="res://resources/Sounds/turbo_orbit.wav" id="19_hilwk"]
+[ext_resource type="AudioStream" uid="uid://c6th5te0nwjrk" path="res://resources/Sounds/hit_goal.wav" id="20_hilwk"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_gcb5y"]
 panorama = ExtResource("1_v45ci")
@@ -38,6 +43,11 @@ glow_hdr_threshold = 1.2
 
 [node name="Game" type="Node3D" unique_id=1596929932]
 script = ExtResource("1_48ne7")
+
+[node name="Music" type="AudioStreamPlayer2D" parent="." unique_id=2127773942]
+stream = ExtResource("2_hilwk")
+volume_db = 1.0
+autoplay = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1291008803]
 environment = SubResource("Environment_space")
@@ -117,5 +127,6 @@ transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 311.5067, -1864.7949, 62.9
 [node name="SoundEffectManager" type="Node" parent="." unique_id=71480808]
 unique_name_in_owner = true
 script = ExtResource("17_sfxmgr")
+sound_effects = Array[AudioStream]([ExtResource("18_15o36"), ExtResource("19_hilwk"), ExtResource("19_02t1k"), ExtResource("20_hilwk")])
 
 [editable path="BigAssPlanet"]
