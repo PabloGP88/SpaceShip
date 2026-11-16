@@ -25,3 +25,22 @@ template = "Press %s to restart"
 controller_button = "Start"
 all_caps = false
 blink = false
+
+[node name="MuteLabel" type="Label" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -26.0
+offset_right = -10.0
+offset_bottom = -8.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 16
+text = "M - Mute music"
+horizontal_alignment = 2
+vertical_alignment = 2
